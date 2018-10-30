@@ -1,6 +1,8 @@
 ros_ws/build/
 ros_ws/devel/
-ros_ws/src/.idea/workspace.xml
+
+ros_ws/src/.idea/
+ros_ws/src/.idea
 ros_ws/src/cmake-build-debug/
 .DS_Store
 *.pyc
