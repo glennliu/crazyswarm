@@ -1595,6 +1595,7 @@ private:
       }
       std::this_thread::sleep_for(std::chrono::milliseconds(m_broadcastingDelayBetweenRepeatsMs));
     }
+    //ROS_INFO("takeoff flag");
 
     return true;
   }

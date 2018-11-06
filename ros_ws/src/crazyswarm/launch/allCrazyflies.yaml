@@ -1,7 +1,7 @@
 crazyflies:
   - id: 1
     channel: 100
-    initialPosition: [1.5, 1.5, 0.0]
+    initialPosition: [0.0, 0.0, 0.0]
     type: default
 #  - id: 2
 #    channel: 100
