@@ -39,7 +39,7 @@
         #  acc_var_xyz: 2.4e-3 # 2.4e-3
       # tracking
       motion_capture_type: "optitrack" # one of none,vicon,optitrack,qualisys
-      object_tracking_type: "libobjecttracker" # one of motionCapture,libobjecttracker
+      object_tracking_type: "motionCapture" # one of motionCapture,libobjecttracker
       vicon_host_name: "vicon"
       optitrack_local_ip: 192.168.1.166 # client ip
       optitrack_server_ip: 192.168.1.168 # motive ip
@@ -58,11 +58,12 @@
     <param name="dev" value="$(arg joy_dev)" />
   </node>
 
+  <!--
   <node pkg="crazyswarm" type="crazyswarm_teleop" name="crazyswarm_teleop" output="screen">
     <param name="csv_file" value="$(find crazyswarm)/launch/figure8_smooth.csv" />
     <param name="timescale" value="0.8" />
   </node>
-
+-->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find crazyswarm)/launch/test.rviz"/>
 
   <node pkg="rqt_gui" type="rqt_gui" name="rqt_gui" output="screen" />
