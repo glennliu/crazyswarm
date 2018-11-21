@@ -1,5 +1,6 @@
 ros_ws/build/
 ros_ws/devel/
+ros_ws/src/.idea/
 ros_ws/src/crazyswarm/.idea/
 ros_ws/src/crazyswarm/cmake-build-debug/
 bag/
