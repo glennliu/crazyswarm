@@ -4,11 +4,11 @@
   <node pkg="crazyswarm" type="mocap_helper" name="mocap_helper" output="screen" >
     <rosparam>
       # tracking
-      motion_capture_type: "vicon" # one of vicon,optitrack,qualisys
-      object_tracking_type: "motionCapture" # one of motionCapture,libobjecttracker
+      motion_capture_type: "optitrack" # one of vicon,optitrack,qualisys
+      object_tracking_type: "libobjecttracker" # one of motionCapture,libobjecttracker
       vicon_host_name: "vicon"
-      # optitrack_local_ip: "localhost"
-      # optitrack_server_ip: "optitrack"
+      optitrack_local_ip: 192.168.1.166
+      optitrack_server_ip: 192.168.1.168
       # qualisys_host_name: "10.0.5.219"
       # qualisys_base_port: 22222
     </rosparam>
