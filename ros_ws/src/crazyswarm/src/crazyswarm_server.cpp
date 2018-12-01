@@ -1165,6 +1165,8 @@ public:
     m_pubPointCloud = nh.advertise<sensor_msgs::PointCloud>("pointCloud", 1);
 
     m_subscribeVirtualInteractiveObject = nh.subscribe("virtual_interactive_object", 1, &CrazyflieServer::virtualInteractiveObjectCallback, this);
+    mocap_optitrack_cb = nh.subscribe("/Robot_1/pose",1,&CrazyflieServer::mocapOptitrackCallback,this);
+
   }
 
   ~CrazyflieServer()
@@ -1180,6 +1182,13 @@ public:
       msg->pose.position.x,
       msg->pose.position.y,
       msg->pose.position.z);
+  }
+
+  void mocapOptitrackCallback(const geometry_msgs::PoseStamped::ConstPtr& msg)
+  {
+    mocap_optitrack_pose_data.header = msg->header;
+    mocap_optitrack_pose_data.pose = msg->pose;
+
   }
 
   void run()
@@ -1745,7 +1754,10 @@ private:
   std::vector<CrazyflieGroup*> m_groups;
 
   ros::Subscriber m_subscribeVirtualInteractiveObject;
+  ros::Subscriber mocap_optitrack_cb;
   Eigen::Vector3f m_lastInteractiveObjectPosition;
+
+  geometry_msgs::PoseStamped mocap_optitrack_pose_data;
 
   int m_broadcastingNumRepeats;
   int m_broadcastingDelayBetweenRepeatsMs;
