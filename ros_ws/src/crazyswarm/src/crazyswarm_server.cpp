@@ -902,6 +902,8 @@ private:
 
         states.resize(states.size() + 1);
         states.back().id = id;
+
+
         states.back().x = rigidBody.position().x();
         states.back().y = rigidBody.position().y();
         states.back().z = rigidBody.position().z();
@@ -909,6 +911,8 @@ private:
         states.back().qy = rigidBody.rotation().y();
         states.back().qz = rigidBody.rotation().z();
         states.back().qw = rigidBody.rotation().w();
+
+
 
         tf::Transform transform;
         transform.setOrigin(tf::Vector3(
@@ -1188,7 +1192,13 @@ public:
   {
     mocap_optitrack_pose_data.header = msg->header;
     mocap_optitrack_pose_data.pose = msg->pose;
-
+    /*
+    m_lastInteractiveObjectPosition = Eigen::Vector3f(
+            msg->pose.position.x,
+            msg->pose.position.y,
+            msg->pose.position.z
+            );
+    */
   }
 
   void run()
@@ -1490,15 +1500,41 @@ public:
         if (useMotionCaptureObjectTracking || !interactiveObject.empty()) {
           // get mocap rigid bodies
           mocapObjects.clear();
-          mocap->getObjects(mocapObjects);
+          //mocap->getObjects(mocapObjects);
+
+          // get mocap_optitrack
+
+/*          Eigen::Quaternionf quat0(0, 0, 0, 1);
+          mocapObjects.push_back(
+                  libobjecttracker::Object(
+                  interactiveObject,
+                  m_lastInteractiveObjectPosition,
+                  quat0)
+          );
+*/
+          interactiveObject = "virtual";
+
+          //mocapObjects.data()->position() = mocap_optitrack_pose_data.pose.position;
           if (interactiveObject == "virtual") {
-            Eigen::Quaternionf quat(0, 0, 0, 1);
+            //Eigen::Quaternionf quat(0, 0, 0, 1);
+            Eigen::Quaternionf quat(mocap_optitrack_pose_data.pose.orientation.w,
+                                    mocap_optitrack_pose_data.pose.orientation.x,
+                                    mocap_optitrack_pose_data.pose.orientation.y,
+                                    mocap_optitrack_pose_data.pose.orientation.z);
+            m_lastInteractiveObjectPosition = Eigen::Vector3f(
+                    mocap_optitrack_pose_data.pose.position.x,
+                    mocap_optitrack_pose_data.pose.position.y,
+                    mocap_optitrack_pose_data.pose.position.z
+                    );
+
             mocapObjects.push_back(
               libmotioncapture::Object(
                 interactiveObject,
                 m_lastInteractiveObjectPosition,
                 quat));
           }
+
+
         }
 
         auto startRunGroups = std::chrono::high_resolution_clock::now();
