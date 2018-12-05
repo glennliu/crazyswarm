@@ -135,7 +135,7 @@ void PublishedRigidBody::publish(RigidBody &body)
     // Handle different coordinate systems (Arena vs. rviz)
     transform.setRotation(q);
     ros::Time timestamp(ros::Time::now());
-    tf_pub.sendTransform(tf::StampedTransform(transform, timestamp, parent_frame_id, child_frame_id));
+    //tf_pub.sendTransform(tf::StampedTransform(transform, timestamp, parent_frame_id, child_frame_id));
   }
 }
 

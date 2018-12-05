@@ -1192,13 +1192,6 @@ public:
   {
     mocap_optitrack_pose_data.header = msg->header;
     mocap_optitrack_pose_data.pose = msg->pose;
-    /*
-    m_lastInteractiveObjectPosition = Eigen::Vector3f(
-            msg->pose.position.x,
-            msg->pose.position.y,
-            msg->pose.position.z
-            );
-    */
   }
 
   void run()
@@ -1499,7 +1492,6 @@ public:
 
         if (useMotionCaptureObjectTracking || !interactiveObject.empty()) {
           // get mocap rigid bodies
-          //mocap->getObjects(mocapObjects);
 
           // get mocap_optitrack
 
@@ -1513,26 +1505,29 @@ public:
 */
             //std::string cf_name;
             mocapObjects.clear();
-            mocapObjects.resize(1);
-            cf_name = "cf1";
-            Eigen::Quaternionf quatObj(mocap_optitrack_pose_data.pose.orientation.w,
-                                    mocap_optitrack_pose_data.pose.orientation.x,
-                                    mocap_optitrack_pose_data.pose.orientation.y,
-                                    mocap_optitrack_pose_data.pose.orientation.z);
-            m_lastInteractiveObjectPosition = Eigen::Vector3f(
-                    mocap_optitrack_pose_data.pose.position.x,
-                    mocap_optitrack_pose_data.pose.position.y,
-                    mocap_optitrack_pose_data.pose.position.z
-            );
-            mocapObjects[1] = libmotioncapture::Object(cf_name,m_lastInteractiveObjectPosition,quatObj);
+            //mocap->getObjects(mocapObjects);
+
+
+          //mocapObjects.resize(1);
+          cf_name = "cf1";
+          Eigen::Quaternionf quatObj(mocap_optitrack_pose_data.pose.orientation.w,
+                                  mocap_optitrack_pose_data.pose.orientation.x,
+                                  mocap_optitrack_pose_data.pose.orientation.y,
+                                  mocap_optitrack_pose_data.pose.orientation.z);
+          Eigen::Vector3f positionObj(
+                  mocap_optitrack_pose_data.pose.position.x,
+                  mocap_optitrack_pose_data.pose.position.y,
+                  mocap_optitrack_pose_data.pose.position.z
+          );
+          //ROS_INFO("break11111");
+
+          mocapObjects.push_back(libmotioncapture::Object(cf_name,positionObj,quatObj));
 
           //interactiveObject = "virtual";
 
           //mocapObjects.data()->position() = mocap_optitrack_pose_data.pose.position;
           if (interactiveObject == "virtual") {
             Eigen::Quaternionf quat(0, 0, 0, 1);
-
-
             mocapObjects.push_back(
               libmotioncapture::Object(
                 interactiveObject,
