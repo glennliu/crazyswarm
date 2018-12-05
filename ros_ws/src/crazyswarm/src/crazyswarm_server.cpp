@@ -1499,7 +1499,6 @@ public:
 
         if (useMotionCaptureObjectTracking || !interactiveObject.empty()) {
           // get mocap rigid bodies
-          mocapObjects.clear();
           //mocap->getObjects(mocapObjects);
 
           // get mocap_optitrack
@@ -1512,12 +1511,11 @@ public:
                   quat0)
           );
 */
-          interactiveObject = "virtual";
-
-          //mocapObjects.data()->position() = mocap_optitrack_pose_data.pose.position;
-          if (interactiveObject == "virtual") {
-            //Eigen::Quaternionf quat(0, 0, 0, 1);
-            Eigen::Quaternionf quat(mocap_optitrack_pose_data.pose.orientation.w,
+            //std::string cf_name;
+            mocapObjects.clear();
+            mocapObjects.resize(1);
+            cf_name = "cf1";
+            Eigen::Quaternionf quatObj(mocap_optitrack_pose_data.pose.orientation.w,
                                     mocap_optitrack_pose_data.pose.orientation.x,
                                     mocap_optitrack_pose_data.pose.orientation.y,
                                     mocap_optitrack_pose_data.pose.orientation.z);
@@ -1525,7 +1523,15 @@ public:
                     mocap_optitrack_pose_data.pose.position.x,
                     mocap_optitrack_pose_data.pose.position.y,
                     mocap_optitrack_pose_data.pose.position.z
-                    );
+            );
+            mocapObjects[1] = libmotioncapture::Object(cf_name,m_lastInteractiveObjectPosition,quatObj);
+
+          //interactiveObject = "virtual";
+
+          //mocapObjects.data()->position() = mocap_optitrack_pose_data.pose.position;
+          if (interactiveObject == "virtual") {
+            Eigen::Quaternionf quat(0, 0, 0, 1);
+
 
             mocapObjects.push_back(
               libmotioncapture::Object(
@@ -1792,8 +1798,10 @@ private:
   ros::Subscriber m_subscribeVirtualInteractiveObject;
   ros::Subscriber mocap_optitrack_cb;
   Eigen::Vector3f m_lastInteractiveObjectPosition;
+  std::string cf_name;
 
-  geometry_msgs::PoseStamped mocap_optitrack_pose_data;
+
+    geometry_msgs::PoseStamped mocap_optitrack_pose_data;
 
   int m_broadcastingNumRepeats;
   int m_broadcastingDelayBetweenRepeatsMs;
